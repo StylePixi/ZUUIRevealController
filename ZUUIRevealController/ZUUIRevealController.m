@@ -563,7 +563,10 @@
 			[self.delegate revealController:self didSwapToFrontViewController:newFrontViewController];
 		}
 		
-		[self revealToggle:self];
+        if (self.currentFrontViewPosition != FrontViewPositionLeft)
+        {
+            [self revealToggle:self];
+        }
 	}
 }
 
