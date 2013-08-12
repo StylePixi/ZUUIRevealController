@@ -734,7 +734,21 @@
 	 * not notice a difference at first, but the keen eye will (even on an iPhone 4S) observe that 
 	 * the interface rotation _WILL_ lag slightly and feel less fluid than with the path.
 	 */
-	UIBezierPath *shadowPath = [UIBezierPath bezierPathWithRect:self.frontView.bounds];
+    UIBezierPath *shadowPath;
+#ifdef SP_IOS7
+    if (floor(NSFoundationVersionNumber) <= NSFoundationVersionNumber_iOS_6_1) {
+        shadowPath = [UIBezierPath bezierPathWithRect:self.frontView.bounds];
+    }
+    else {
+        CGRect bounds = CGRectMake(self.frontView.bounds.origin.x,
+                                   23,
+                                   self.frontView.bounds.size.width,
+                                   self.frontView.bounds.size.width - 23);
+        shadowPath = [UIBezierPath bezierPathWithRect:bounds];
+    }
+#else
+     shadowPath = [UIBezierPath bezierPathWithRect:self.frontView.bounds];
+#endif
 	self.frontView.layer.masksToBounds = NO;
 	self.frontView.layer.shadowColor = [UIColor blackColor].CGColor;
 	self.frontView.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
